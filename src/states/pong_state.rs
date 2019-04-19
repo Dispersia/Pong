@@ -1,10 +1,8 @@
-use crate::archetypes::{ball::BallArchetype, camera::CameraArchetype, paddle::PaddleArchetype};
-use crate::components::{
-    ball::Ball,
-    paddle::{Paddle, Side},
-    velocity::Velocity,
+use crate::{
+    archetypes::{ball::BallArchetype, camera::CameraArchetype, paddle::PaddleArchetype},
+    components::{ball::Ball, paddle::Side, velocity::Velocity},
+    resources::spritesheet,
 };
-use crate::resources::spritesheet;
 use amethyst::prelude::*;
 
 pub const ARENA_HEIGHT: f32 = 100.0;
@@ -18,14 +16,13 @@ impl SimpleState for PongState {
 
         let sprite_sheet_handle = spritesheet::load_sprite_sheet(world);
 
-        world.register::<Paddle>();
+        world.register::<amethyst::renderer::SpriteRender>();
         world.register::<Ball>();
-        world.register::<Velocity>();
-
-        BallArchetype::new(world);
 
         PaddleArchetype::new(world, &sprite_sheet_handle, Side::Left);
         PaddleArchetype::new(world, &sprite_sheet_handle, Side::Right);
+
+        //BallArchetype::new(world);
 
         CameraArchetype::new(world);
     }

@@ -6,6 +6,9 @@ pub enum Side {
     Right,
 }
 
+pub const PADDLE_HEIGHT: f32 = 16.0;
+pub const PADDLE_WIDTH: f32 = 4.0;
+
 pub struct Paddle {
     pub side: Side,
     pub width: f32,
@@ -21,7 +24,7 @@ impl Paddle {
         Paddle {
             side,
             width: 1.0,
-            height: 1.0
+            height: 1.0,
         }
     }
 }
