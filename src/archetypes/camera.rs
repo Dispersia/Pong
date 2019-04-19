@@ -1,12 +1,11 @@
+use crate::states::pong_state::{ARENA_HEIGHT, ARENA_WIDTH};
+
 use amethyst::ecs::{World, Entity};
 use amethyst::prelude::*;
 use amethyst::core::transform::Transform;
 use amethyst::renderer::{
     Camera, Projection
 };
-
-pub const ARENA_HEIGHT: f32 = 100.0;
-pub const ARENA_WIDTH: f32 = 100.0;
 
 pub struct CameraArchetype;
 

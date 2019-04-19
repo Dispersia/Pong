@@ -1,9 +1,11 @@
-mod systems;
-mod components;
 mod archetypes;
+mod components;
+mod resources;
 mod states;
+mod systems;
 
 use amethyst::{
+    core::transform::TransformBundle,
     prelude::*,
     renderer::{DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage},
     utils::application_root_dir,
@@ -24,8 +26,10 @@ fn main() -> amethyst::Result<()> {
             .with_pass(DrawFlat::<PosNormTex>::new()),
     );
 
-    let game_data =
-        GameDataBuilder::default().with_bundle(RenderBundle::new(pipe, Some(config)))?;
+    let game_data = GameDataBuilder::default()
+        .with_bundle(RenderBundle::new(pipe, Some(config)).with_sprite_sheet_processor())?
+        .with_bundle(TransformBundle::new())?;
+
     let mut game = Application::new("./", states::pong_state::PongState, game_data)?;
 
     game.run();
