@@ -1,5 +1,5 @@
-
+mod bounce;
 mod movement;
 mod paddle;
 
-pub use self::{movement::MovementSystem, paddle::PaddleSystem};
+pub use self::{bounce::BounceSystem, movement::MovementSystem, paddle::PaddleSystem};

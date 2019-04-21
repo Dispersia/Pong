@@ -22,7 +22,7 @@ impl SimpleState for PongState {
         PaddleArchetype::new(world, &sprite_sheet_handle, Side::Left);
         PaddleArchetype::new(world, &sprite_sheet_handle, Side::Right);
 
-        //BallArchetype::new(world);
+        BallArchetype::new(world, &sprite_sheet_handle);
 
         CameraArchetype::new(world);
     }
