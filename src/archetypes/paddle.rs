@@ -1,9 +1,15 @@
-use crate::components::paddle;
+use crate::components::{
+    collider::Collider,
+    paddle::{Paddle, Side}
+};
 use crate::states::pong_state::{ARENA_HEIGHT, ARENA_WIDTH};
 use amethyst::core::transform::Transform;
 use amethyst::ecs::{Entity, World};
 use amethyst::prelude::*;
 use amethyst::renderer::{SpriteRender, SpriteSheetHandle};
+
+const PADDLE_HEIGHT: f32 = 16.0;
+const PADDLE_WIDTH: f32 = 4.0;
 
 pub struct PaddleArchetype;
 
@@ -11,13 +17,11 @@ impl PaddleArchetype {
     pub fn new(
         world: &mut World,
         sprite_sheet_handle: &SpriteSheetHandle,
-        side: paddle::Side,
+        side: Side,
     ) -> Entity {
-        use crate::components::paddle::PADDLE_WIDTH;
-
         let mut transform = Transform::default();
 
-        let is_right = side == paddle::Side::Right;
+        let is_right = side == Side::Right;
 
         let x = if is_right {
             ARENA_WIDTH - PADDLE_WIDTH * 0.5
@@ -37,7 +41,10 @@ impl PaddleArchetype {
         world
             .create_entity()
             .with(sprite_render.clone())
-            .with(paddle::Paddle::new(side))
+            .with(Paddle {
+                side: side
+            })
+            .with(Collider::Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT))
             .with(transform)
             .build()
     }

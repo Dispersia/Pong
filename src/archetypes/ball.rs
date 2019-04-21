@@ -1,4 +1,4 @@
-use crate::components::{ball::Ball, velocity::Velocity};
+use crate::components::{ball::Ball, collider::Collider, velocity::Velocity};
 use crate::states::pong_state::{ARENA_HEIGHT, ARENA_WIDTH};
 use amethyst::core::transform::Transform;
 use amethyst::ecs::{Entity, World};
@@ -27,9 +27,8 @@ impl BallArchetype {
         world
             .create_entity()
             .with(sprite_sheet)
-            .with(Ball {
-                radius: BALL_RADIUS,
-            })
+            .with(Ball)
+            .with(Collider::Circle(BALL_RADIUS))
             .with(Velocity {
                 x: BALL_VELOCITY_X,
                 y: BALL_VELOCITY_Y,

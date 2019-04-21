@@ -1,4 +1,8 @@
-use crate::components::{ball::Ball, velocity::Velocity};
+use crate::components::{
+    ball::Ball,
+    velocity::Velocity,
+    collider::Collider,
+};
 use crate::states::pong_state::ARENA_HEIGHT;
 use amethyst::{
     core::transform::Transform,
@@ -10,18 +14,20 @@ pub struct BounceSystem;
 impl<'s> System<'s> for BounceSystem {
     type SystemData = (
         ReadStorage<'s, Ball>,
+        ReadStorage<'s, Collider>,
         ReadStorage<'s, Transform>,
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (balls, transforms, mut velocities): Self::SystemData) {
-        for (ball, transform, velocity) in (&balls, &transforms, &mut velocities).join() {
+    fn run(&mut self, (_, colliders, transforms, mut velocities): Self::SystemData) {
+        for (collider, transform, velocity) in (&colliders, &transforms, &mut velocities).join() {
             let transform = transform.translation();
 
-            if transform.y + ball.radius > ARENA_HEIGHT
-                || transform.y + ball.radius <= 0.
-            {
-                velocity.y = -velocity.y;
+            if let Collider::Circle(radius) = collider {
+                if transform.y + radius > ARENA_HEIGHT
+                    || transform.y + radius <= 0.0 {
+                    velocity.y = -velocity.y;
+                }
             }
         }
     }

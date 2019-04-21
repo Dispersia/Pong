@@ -1,9 +1,8 @@
-use amethyst::ecs::prelude::{Component, DenseVecStorage};
+use amethyst::ecs::prelude::{Component, NullStorage};
 
-pub struct Ball {
-    pub radius: f32,
-}
+#[derive(Default)]
+pub struct Ball;
 
 impl Component for Ball {
-    type Storage = DenseVecStorage<Self>;
+    type Storage = NullStorage<Self>;
 }
