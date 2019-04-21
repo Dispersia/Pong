@@ -16,8 +16,10 @@ impl<'s> System<'s> for BounceSystem {
 
     fn run(&mut self, (balls, transforms, mut velocities): Self::SystemData) {
         for (ball, transform, velocity) in (&balls, &transforms, &mut velocities).join() {
-            if transform.translation().y + ball.radius > ARENA_HEIGHT
-                || transform.translation().y + ball.radius <= 0.
+            let transform = transform.translation();
+
+            if transform.y + ball.radius > ARENA_HEIGHT
+                || transform.y + ball.radius <= 0.
             {
                 velocity.y = -velocity.y;
             }

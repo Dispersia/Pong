@@ -20,8 +20,10 @@ impl<'s> System<'s> for ScoreSystem {
 
     fn run(&mut self, (balls, mut velocities, mut transforms): Self::SystemData) {
         for (ball, velocity, transform) in (&balls, &mut velocities, &mut transforms).join() {
-            if transform.translation().x + ball.radius > ARENA_WIDTH
-                || transform.translation().x <= 0.
+            let transform_pos = transform.translation();
+
+            if transform_pos.x + ball.radius > ARENA_WIDTH
+                || transform_pos.x <= 0.
             {
                 transform.set_translation_x(ARENA_WIDTH / 2.);
                 transform.set_translation_y(ARENA_HEIGHT / 2.);
