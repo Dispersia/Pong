@@ -4,7 +4,7 @@ mod resources;
 mod states;
 mod systems;
 
-use crate::systems::{MovementSystem, PaddleSystem, BounceSystem};
+use crate::systems::{BounceSystem, MovementSystem, PongInputSystem};
 use amethyst::{
     core::{
         bundle::SystemBundle, frame_limiter::FrameRateLimitStrategy, transform::TransformBundle,
@@ -24,7 +24,7 @@ fn main() -> amethyst::Result<()> {
 
     let root = application_root_dir()?;
 
-    let config_path = root.join("resources/display_config.ron");
+    let config_path = root.join("resources").join("display_config.ron");
 
     let config = DisplayConfig::load(&config_path);
 
@@ -34,10 +34,10 @@ fn main() -> amethyst::Result<()> {
             .with_pass(DrawFlat2D::new()),
     );
 
-    let binding_path = root.join("resources/bindings_config.ron");
+    let binding_path = root.join("resources").join("bindings_config.ron");
 
-    let input_bundle = InputBundle::<String, String>::new()
-        .with_bindings_from_file(binding_path)?;
+    let input_bundle =
+        InputBundle::<String, String>::new().with_bindings_from_file(binding_path)?;
 
     let game_data = GameDataBuilder::default()
         .with_bundle(PongBundle)?
@@ -61,10 +61,10 @@ struct PongBundle;
 
 impl<'a, 'b> SystemBundle<'a, 'b> for PongBundle {
     fn build(self, builder: &mut DispatcherBuilder<'a, 'b>) -> Result<(), Error> {
-        builder.add(PaddleSystem, "paddle_system", &[]);
-        builder.add(MovementSystem, "movement_system", &["paddle_system"]);
+        builder.add(PongInputSystem, "pong_input_system", &[]);
+        builder.add(MovementSystem, "movement_system", &["pong_input_system"]);
         builder.add(BounceSystem, "bounce_system", &["movement_system"]);
-        
+
         Ok(())
     }
 }

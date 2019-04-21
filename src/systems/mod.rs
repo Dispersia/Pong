@@ -1,5 +1,5 @@
 mod bounce;
 mod movement;
-mod paddle;
+mod pong_input;
 
-pub use self::{bounce::BounceSystem, movement::MovementSystem, paddle::PaddleSystem};
+pub use self::{bounce::BounceSystem, movement::MovementSystem, pong_input::PongInputSystem};

@@ -4,9 +4,9 @@ use amethyst::{
     input::InputHandler,
 };
 
-pub struct PaddleSystem;
+pub struct PongInputSystem;
 
-impl<'s> System<'s> for PaddleSystem {
+impl<'s> System<'s> for PongInputSystem {
     type SystemData = (
         ReadStorage<'s, paddle::Paddle>,
         Read<'s, InputHandler<String, String>>,
