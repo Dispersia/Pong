@@ -1,6 +1,6 @@
 use crate::{
     archetypes::{ball::BallArchetype, camera::CameraArchetype, paddle::PaddleArchetype},
-    components::{ball::Ball, paddle::Side, velocity::Velocity},
+    components::{ball::Ball, paddle::Side},
     resources::spritesheet,
 };
 use amethyst::prelude::*;

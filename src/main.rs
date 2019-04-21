@@ -1,10 +1,12 @@
+#![windows_subsystem = "windows"]
+
 mod archetypes;
 mod components;
 mod resources;
 mod states;
 mod systems;
 
-use crate::systems::{BounceSystem, MovementSystem, PongInputSystem};
+use crate::systems::{BounceSystem, MovementSystem, PongInputSystem, ScoreSystem};
 use amethyst::{
     core::{
         bundle::SystemBundle, frame_limiter::FrameRateLimitStrategy, transform::TransformBundle,
@@ -64,6 +66,7 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PongBundle {
         builder.add(PongInputSystem, "pong_input_system", &[]);
         builder.add(MovementSystem, "movement_system", &["pong_input_system"]);
         builder.add(BounceSystem, "bounce_system", &["movement_system"]);
+        builder.add(ScoreSystem, "score_system", &["movement_system"]);
 
         Ok(())
     }
