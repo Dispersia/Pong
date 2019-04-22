@@ -1,8 +1,4 @@
-use crate::components::{
-    ball::Ball,
-    velocity::Velocity,
-    collider::Collider,
-};
+use crate::components::{ball::Ball, collider::Collider, paddle::PaddleSide, velocity::Velocity};
 use crate::states::pong_state::ARENA_HEIGHT;
 use amethyst::{
     core::transform::Transform,
@@ -14,19 +10,31 @@ pub struct BounceSystem;
 impl<'s> System<'s> for BounceSystem {
     type SystemData = (
         ReadStorage<'s, Ball>,
+        ReadStorage<'s, PaddleSide>,
         ReadStorage<'s, Collider>,
         ReadStorage<'s, Transform>,
         WriteStorage<'s, Velocity>,
     );
 
-    fn run(&mut self, (_, colliders, transforms, mut velocities): Self::SystemData) {
-        for (collider, transform, velocity) in (&colliders, &transforms, &mut velocities).join() {
-            let transform = transform.translation();
+    fn run(&mut self, (balls, paddles, colliders, transforms, mut velocities): Self::SystemData) {
+        for (_, collider, transform, velocity) in
+            (&balls, &colliders, &transforms, &mut velocities).join()
+        {
+            let transform_pos = transform.translation();
 
             if let Collider::Circle(radius) = collider {
-                if transform.y + radius > ARENA_HEIGHT
-                    || transform.y + radius <= 0.0 {
+                if transform_pos.y + radius > ARENA_HEIGHT || transform_pos.y + radius <= 0.0 {
                     velocity.y = -velocity.y;
+                    continue;
+                }
+
+                for (_, paddle_collider, paddle_transform) in
+                    (&paddles, &colliders, &transforms).join()
+                {
+                    if collider.collides_with(transform, paddle_collider, paddle_transform) {
+                        velocity.x = -velocity.x;
+                        break;
+                    }
                 }
             }
         }

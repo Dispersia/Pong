@@ -1,5 +1,7 @@
 use crate::{
-    components::{ball::Ball, collider::Collider, velocity::Velocity},
+    components::{
+        ball::Ball, collider::Collider, paddle::PaddleSide, team::Team, velocity::Velocity,
+    },
     states::pong_state::{ARENA_HEIGHT, ARENA_WIDTH},
 };
 use amethyst::{
@@ -15,12 +17,18 @@ impl<'s> System<'s> for ScoreSystem {
     type SystemData = (
         ReadStorage<'s, Ball>,
         ReadStorage<'s, Collider>,
+        ReadStorage<'s, PaddleSide>,
+        WriteStorage<'s, Team>,
         WriteStorage<'s, Velocity>,
         WriteStorage<'s, Transform>,
     );
 
-    fn run(&mut self, (_, colliders, mut velocities, mut transforms): Self::SystemData) {
-        for (collider, velocity, transform) in (&colliders, &mut velocities, &mut transforms).join()
+    fn run(
+        &mut self,
+        (balls, colliders, paddles, mut teams, mut velocities, mut transforms): Self::SystemData,
+    ) {
+        for (_, collider, velocity, transform) in
+            (&balls, &colliders, &mut velocities, &mut transforms).join()
         {
             let transform_pos = transform.translation();
 
@@ -42,6 +50,28 @@ impl<'s> System<'s> for ScoreSystem {
 
                     if invert_y == 0 {
                         velocity.y = -velocity.y;
+                    }
+
+                    if exited_left_side {
+                        for (_, team) in (&paddles, &mut teams).join() {
+                            if team.id == 0 {
+                                team.points += 1;
+
+                                println!("Team {}: {}", team.id, team.points);
+                                break;
+                            }
+                        }
+                    }
+
+                    if exited_right_side {
+                        for (_, team) in (&paddles, &mut teams).join() {
+                            if team.id == 1 {
+                                team.points += 1;
+
+                                println!("Team {}: {}", team.id, team.points);
+                                break;
+                            }
+                        }
                     }
                 }
             }

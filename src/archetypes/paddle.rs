@@ -1,4 +1,4 @@
-use crate::components::{collider::Collider, paddle::PaddleSide, team::Team};
+use crate::components::{collider::Collider, paddle::PaddleSide, team::Team, velocity::Velocity};
 use crate::states::pong_state::{ARENA_HEIGHT, ARENA_WIDTH};
 use amethyst::core::transform::Transform;
 use amethyst::ecs::{Entity, World};
@@ -44,7 +44,8 @@ impl PaddleArchetype {
                 id: team_id,
                 points: 0,
             })
-            .with(Collider::Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT))
+            .with(Velocity { x: 0.0, y: 0.0 })
+            .with(Collider::Rectangle(PADDLE_HEIGHT, PADDLE_WIDTH))
             .with(transform)
             .build()
     }
