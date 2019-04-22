@@ -1,16 +1,11 @@
-use amethyst::ecs::{Component, DenseVecStorage};
+use amethyst::ecs::{Component, VecStorage};
 
 #[derive(PartialEq, Eq)]
-pub enum Side {
+pub enum PaddleSide {
     Left,
     Right,
 }
 
-
-pub struct Paddle {
-    pub side: Side,
-}
-
-impl Component for Paddle {
-    type Storage = DenseVecStorage<Self>;
+impl Component for PaddleSide {
+    type Storage = VecStorage<Self>;
 }

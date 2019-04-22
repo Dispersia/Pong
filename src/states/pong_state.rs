@@ -1,6 +1,6 @@
 use crate::{
     archetypes::{ball::BallArchetype, camera::CameraArchetype, paddle::PaddleArchetype},
-    components::{ball::Ball, paddle::Side},
+    components::{paddle::PaddleSide},
     resources::spritesheet,
 };
 use amethyst::prelude::*;
@@ -16,11 +16,8 @@ impl SimpleState for PongState {
 
         let sprite_sheet_handle = spritesheet::load_sprite_sheet(world);
 
-        world.register::<amethyst::renderer::SpriteRender>();
-        world.register::<Ball>();
-
-        PaddleArchetype::new(world, &sprite_sheet_handle, Side::Left);
-        PaddleArchetype::new(world, &sprite_sheet_handle, Side::Right);
+        PaddleArchetype::new(world, &sprite_sheet_handle, PaddleSide::Left);
+        PaddleArchetype::new(world, &sprite_sheet_handle, PaddleSide::Right);
 
         BallArchetype::new(world, &sprite_sheet_handle);
 

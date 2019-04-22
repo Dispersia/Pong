@@ -8,7 +8,7 @@ pub struct PongInputSystem;
 
 impl<'s> System<'s> for PongInputSystem {
     type SystemData = (
-        ReadStorage<'s, paddle::Paddle>,
+        ReadStorage<'s, paddle::PaddleSide>,
         Read<'s, InputHandler<String, String>>,
     );
 
