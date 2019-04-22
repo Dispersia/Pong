@@ -25,13 +25,16 @@ impl<'s> System<'s> for ScoreSystem {
             let transform_pos = transform.translation();
 
             if let Collider::Circle(radius) = collider {
-                if transform_pos.x + radius > ARENA_WIDTH || transform_pos.x <= 0. {
+                let exited_right_side = transform_pos.x + radius > ARENA_WIDTH;
+                let exited_left_side = transform_pos.x <= 0.;
+
+                if exited_left_side || exited_right_side {
                     transform.set_translation_x(ARENA_WIDTH / 2.);
                     transform.set_translation_y(ARENA_HEIGHT / 2.);
 
                     let mut rng = rand::thread_rng();
-                    let invert_x = rng.gen_range(0, 2);
-                    let invert_y = rng.gen_range(0, 2);
+                    let invert_x: i32 = rng.gen_range(0, 2);
+                    let invert_y: i32 = rng.gen_range(0, 2);
 
                     if invert_x == 0 {
                         velocity.x = -velocity.x;

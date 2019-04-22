@@ -1,6 +1,6 @@
 use crate::{
     archetypes::{ball::BallArchetype, camera::CameraArchetype, paddle::PaddleArchetype},
-    components::{paddle::PaddleSide},
+    components::{paddle::PaddleSide, team::Team},
     resources::spritesheet,
 };
 use amethyst::prelude::*;
@@ -13,6 +13,8 @@ pub struct PongState;
 impl SimpleState for PongState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
+
+        world.register::<Team>();
 
         let sprite_sheet_handle = spritesheet::load_sprite_sheet(world);
 
