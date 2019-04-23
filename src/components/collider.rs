@@ -4,7 +4,7 @@ use amethyst::{
 };
 
 pub enum Collider {
-    Circle(f32),
+    Square(f32),
     Rectangle(f32, f32),
 }
 
@@ -21,29 +21,44 @@ impl Collider {
         other_transform: &Transform,
     ) -> bool {
         let (height, width) = match *self {
-            Collider::Circle(radius) => (radius, radius),
+            Collider::Square(length) => (length, length),
             Collider::Rectangle(height, width) => (height, width),
         };
 
         let (other_height, other_width) = match *other_collider {
-            Collider::Circle(radius) => (radius, radius),
+            Collider::Square(length) => (length, length),
             Collider::Rectangle(height, width) => (height, width),
         };
 
-        let transform = transform.translation();
-        let other_transform = other_transform.translation();
+        let ball_transform = transform.translation();
+        let paddle_transform = other_transform.translation();
 
         self.point_in_rect(
-            transform.x,
-            transform.y,
-            other_transform.x - width,
-            other_transform.y - height,
-            other_transform.x + width + other_width,
-            other_transform.y + height + other_height,
+            ball_transform.x,
+            ball_transform.x + width,
+            ball_transform.y,
+            ball_transform.y + height,
+            paddle_transform.x,
+            paddle_transform.x + other_width,
+            paddle_transform.y,
+            paddle_transform.y + other_height,
         )
     }
 
-    fn point_in_rect(&self, x: f32, y: f32, left: f32, bottom: f32, right: f32, top: f32) -> bool {
-        x >= left && x <= right && y >= bottom && y <= top
+    fn point_in_rect(
+        &self,
+        ball_left: f32,
+        ball_right: f32,
+        ball_top: f32,
+        ball_bottom: f32,
+        paddle_left: f32,
+        paddle_right: f32,
+        paddle_top: f32,
+        paddle_bottom: f32,
+    ) -> bool {
+        ball_left < paddle_right
+            && paddle_left < ball_right
+            && ball_top < paddle_bottom
+            && paddle_top < ball_bottom
     }
 }

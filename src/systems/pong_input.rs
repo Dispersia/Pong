@@ -4,7 +4,7 @@ use amethyst::{
     input::InputHandler,
 };
 
-const PADDLE_SPEED: f32 = 65.0;
+const PADDLE_SPEED: f32 = 75.0;
 
 pub struct PongInputSystem;
 

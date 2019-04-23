@@ -6,7 +6,9 @@ mod resources;
 mod states;
 mod systems;
 
-use crate::systems::{BounceSystem, MovementSystem, PongInputSystem, ScoreSystem};
+use crate::systems::{
+    BounceSystem, MovementSystem, PongDebugLinesSystem, PongInputSystem, ScoreSystem,
+};
 use amethyst::{
     core::{
         bundle::SystemBundle, frame_limiter::FrameRateLimitStrategy, transform::TransformBundle,
@@ -15,7 +17,9 @@ use amethyst::{
     error::Error,
     input::InputBundle,
     prelude::*,
-    renderer::{DisplayConfig, DrawFlat2D, Pipeline, RenderBundle, Stage},
+    renderer::{
+        DisplayConfig, DrawDebugLines, DrawFlat2D, Pipeline, PosColorNorm, RenderBundle, Stage,
+    },
     utils::application_root_dir,
 };
 
@@ -33,7 +37,8 @@ fn main() -> amethyst::Result<()> {
     let pipe = Pipeline::build().with_stage(
         Stage::with_backbuffer()
             .clear_target([0.0, 0.0, 0.0, 1.0], 1.0)
-            .with_pass(DrawFlat2D::new()),
+            .with_pass(DrawFlat2D::new())
+            .with_pass(DrawDebugLines::<PosColorNorm>::new()),
     );
 
     let binding_path = root.join("resources").join("bindings_config.ron");
@@ -42,10 +47,10 @@ fn main() -> amethyst::Result<()> {
         InputBundle::<String, String>::new().with_bindings_from_file(binding_path)?;
 
     let game_data = GameDataBuilder::default()
+        .with_bundle(input_bundle)?
         .with_bundle(PongBundle)?
         .with_bundle(RenderBundle::new(pipe, Some(config)).with_sprite_sheet_processor())?
-        .with_bundle(TransformBundle::new())?
-        .with_bundle(input_bundle)?;
+        .with_bundle(TransformBundle::new().with_dep(&["movement_system"]))?;
 
     let mut game = Application::build(root, states::pong_state::PongState)?
         .with_frame_limit(
@@ -67,6 +72,11 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PongBundle {
         builder.add(MovementSystem, "movement_system", &["pong_input_system"]);
         builder.add(BounceSystem, "bounce_system", &["movement_system"]);
         builder.add(ScoreSystem, "score_system", &["movement_system"]);
+        builder.add(
+            PongDebugLinesSystem,
+            "debug_lines_system",
+            &["movement_system"],
+        );
 
         Ok(())
     }

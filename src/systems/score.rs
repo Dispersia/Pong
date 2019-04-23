@@ -32,8 +32,8 @@ impl<'s> System<'s> for ScoreSystem {
         {
             let transform_pos = transform.translation();
 
-            if let Collider::Circle(radius) = collider {
-                let exited_right_side = transform_pos.x + radius > ARENA_WIDTH;
+            if let Collider::Square(length) = collider {
+                let exited_right_side = transform_pos.x + length >= ARENA_WIDTH;
                 let exited_left_side = transform_pos.x <= 0.;
 
                 if exited_left_side || exited_right_side {

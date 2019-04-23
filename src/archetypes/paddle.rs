@@ -38,7 +38,7 @@ impl PaddleArchetype {
 
         world
             .create_entity()
-            .with(sprite_render.clone())
+            .with(sprite_render)
             .with(side)
             .with(Team {
                 id: team_id,
