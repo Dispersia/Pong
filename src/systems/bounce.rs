@@ -23,7 +23,7 @@ impl<'s> System<'s> for BounceSystem {
             let transform_pos = transform.translation();
 
             if let Collider::Square(length) = collider {
-                if transform_pos.y + length > ARENA_HEIGHT || transform_pos.y <= 0.0 {
+                if transform_pos.y + length > ARENA_HEIGHT || transform_pos.y - length <= 0.0 {
                     velocity.y = -velocity.y;
                     continue;
                 }

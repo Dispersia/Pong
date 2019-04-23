@@ -72,11 +72,11 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PongBundle {
         builder.add(MovementSystem, "movement_system", &["pong_input_system"]);
         builder.add(BounceSystem, "bounce_system", &["movement_system"]);
         builder.add(ScoreSystem, "score_system", &["movement_system"]);
-        builder.add(
+        /*builder.add(
             PongDebugLinesSystem,
             "debug_lines_system",
             &["movement_system"],
-        );
+        );*/
 
         Ok(())
     }

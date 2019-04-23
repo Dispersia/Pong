@@ -7,7 +7,7 @@ use amethyst::renderer::{SpriteRender, SpriteSheetHandle};
 
 const BALL_VELOCITY_X: f32 = 15.0; //75.0;
 const BALL_VELOCITY_Y: f32 = 10.0; //50.0;
-const BALL_DIMENSIONS: f32 = 4.0;
+const BALL_DIMENSIONS: f32 = 2.0;
 
 pub struct BallArchetype;
 
