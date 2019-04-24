@@ -22,9 +22,9 @@ impl PaddleArchetype {
         let team_id: u8 = if !is_right { 0 } else { 1 };
 
         let x = if is_right {
-            ARENA_WIDTH - PADDLE_WIDTH * 0.5
+            ARENA_WIDTH - PADDLE_WIDTH
         } else {
-            PADDLE_WIDTH * 0.5
+            0.0
         };
 
         let y = ARENA_HEIGHT / 2.0;
