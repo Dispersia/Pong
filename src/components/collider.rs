@@ -1,6 +1,6 @@
 use amethyst::{
     core::transform::Transform,
-    ecs::{Component, DenseVecStorage},
+    ecs::{Component, VecStorage},
 };
 
 pub enum Collider {
@@ -9,7 +9,7 @@ pub enum Collider {
 }
 
 impl Component for Collider {
-    type Storage = DenseVecStorage<Self>;
+    type Storage = VecStorage<Self>;
 }
 
 impl Collider {

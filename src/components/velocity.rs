@@ -1,4 +1,4 @@
-use amethyst::ecs::{Component, DenseVecStorage};
+use amethyst::ecs::{Component, VecStorage};
 
 pub struct Velocity {
     pub x: f32,
@@ -6,5 +6,5 @@ pub struct Velocity {
 }
 
 impl Component for Velocity {
-    type Storage = DenseVecStorage<Self>;
+    type Storage = VecStorage<Self>;
 }

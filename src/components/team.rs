@@ -1,4 +1,4 @@
-use amethyst::ecs::{Component, DenseVecStorage};
+use amethyst::ecs::{Component, VecStorage};
 
 pub struct Team {
     pub id: u8,
@@ -6,5 +6,5 @@ pub struct Team {
 }
 
 impl Component for Team {
-    type Storage = DenseVecStorage<Self>;
+    type Storage = VecStorage<Self>;
 }

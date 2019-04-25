@@ -1,7 +1,4 @@
-use crate::{
-    components::{collider::Collider, paddle::PaddleSide},
-    states::pong_state::ARENA_HEIGHT,
-};
+use crate::{components::collider::Collider, states::pong_state::ARENA_HEIGHT};
 use amethyst::{
     core::transform::Transform,
     ecs::{Join, ReadStorage, System, WriteStorage},
