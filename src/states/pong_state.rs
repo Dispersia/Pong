@@ -32,9 +32,9 @@ impl SimpleState for PongState {
 }
 
 impl PongState {
-    #[allow(dead_code)]
     /// This function will be called to add depdencies only when draw_debug
     /// feature is enabled
+    #[allow(dead_code)]
     fn add_debug_lines(&self, world: &mut World) {
         world.add_resource(DebugLines::new().with_capacity(500));
         world.add_resource(DebugLinesParams { line_width: 4.0 });

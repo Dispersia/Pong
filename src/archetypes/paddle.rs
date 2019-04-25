@@ -27,7 +27,7 @@ impl PaddleArchetype {
             0.0
         };
 
-        let y = ARENA_HEIGHT / 2.0;
+        let y = ARENA_HEIGHT / 2.0 - PADDLE_HEIGHT / 2.0;
 
         transform.set_translation_xyz(x, y, 0.0);
 
