@@ -17,8 +17,8 @@ impl SimpleState for PongState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
 
-        world.add_resource(DebugLines::new().with_capacity(500));
-        world.add_resource(DebugLinesParams { line_width: 4.0 });
+        #[cfg(feature = "draw_debug")]
+        self.add_debug_lines(world);
 
         let sprite_sheet_handle = spritesheet::load_sprite_sheet(world);
 
@@ -28,5 +28,15 @@ impl SimpleState for PongState {
         BallArchetype::new(world, &sprite_sheet_handle);
 
         CameraArchetype::new(world);
+    }
+}
+
+impl PongState {
+    #[allow(dead_code)]
+    /// This function will be called to add depdencies only when draw_debug
+    /// feature is enabled
+    fn add_debug_lines(&self, world: &mut World) {
+        world.add_resource(DebugLines::new().with_capacity(500));
+        world.add_resource(DebugLinesParams { line_width: 4.0 });
     }
 }

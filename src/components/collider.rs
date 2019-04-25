@@ -38,10 +38,10 @@ impl Collider {
             ball_transform.x + width,
             ball_transform.y,
             ball_transform.y + height,
-            paddle_transform.x - width,
-            paddle_transform.x + width + other_width,
-            paddle_transform.y - height,
-            paddle_transform.y + height + other_height,
+            paddle_transform.x,
+            paddle_transform.x + other_width,
+            paddle_transform.y,
+            paddle_transform.y + other_height,
         )
     }
 

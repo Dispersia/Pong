@@ -7,7 +7,7 @@ mod states;
 mod systems;
 
 use crate::systems::{
-    BounceSystem, MovementSystem, PongDebugLinesSystem, PongInputSystem, ScoreSystem,
+    BounceSystem, MovementSystem, PaddleConstrainSystem, PongInputSystem, ScoreSystem,
 };
 use amethyst::{
     core::{
@@ -70,8 +70,17 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PongBundle {
     fn build(self, builder: &mut DispatcherBuilder<'a, 'b>) -> Result<(), Error> {
         builder.add(PongInputSystem, "pong_input_system", &[]);
         builder.add(MovementSystem, "movement_system", &["pong_input_system"]);
+        builder.add(
+            PaddleConstrainSystem,
+            "paddle_constrain_system",
+            &["movement_system"],
+        );
         builder.add(BounceSystem, "bounce_system", &["movement_system"]);
         builder.add(ScoreSystem, "score_system", &["movement_system"]);
+
+        #[cfg(feature = "draw_debug")]
+        use crate::systems::PongDebugLinesSystem;
+        #[cfg(feature = "draw_debug")]
         builder.add(
             PongDebugLinesSystem,
             "debug_lines_system",
