@@ -7,17 +7,13 @@ use amethyst::{
     ecs::{Join, ReadStorage, System, WriteStorage},
 };
 
-pub struct PaddleConstrainSystem;
+pub struct BoundConstraintSystem;
 
-impl<'s> System<'s> for PaddleConstrainSystem {
-    type SystemData = (
-        ReadStorage<'s, PaddleSide>,
-        ReadStorage<'s, Collider>,
-        WriteStorage<'s, Transform>,
-    );
+impl<'s> System<'s> for BoundConstraintSystem {
+    type SystemData = (ReadStorage<'s, Collider>, WriteStorage<'s, Transform>);
 
-    fn run(&mut self, (paddle, collider, mut transform): Self::SystemData) {
-        for (_, collider, transform) in (&paddle, &collider, &mut transform).join() {
+    fn run(&mut self, (collider, mut transform): Self::SystemData) {
+        for (collider, transform) in (&collider, &mut transform).join() {
             let transform_pos = transform.translation();
 
             let height = match collider {

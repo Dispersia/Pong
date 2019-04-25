@@ -8,8 +8,8 @@ use amethyst::{
     renderer::{DebugLines, DebugLinesParams},
 };
 
-pub const ARENA_HEIGHT: f32 = 100.0;
-pub const ARENA_WIDTH: f32 = 100.0;
+pub const ARENA_HEIGHT: f32 = 125.0;
+pub const ARENA_WIDTH: f32 = 200.0;
 
 pub struct PongState;
 

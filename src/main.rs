@@ -7,7 +7,7 @@ mod states;
 mod systems;
 
 use crate::systems::{
-    BounceSystem, MovementSystem, PaddleConstrainSystem, PongInputSystem, ScoreSystem,
+    BounceSystem, BoundConstraintSystem, MovementSystem, PongInputSystem, ScoreSystem,
 };
 use amethyst::{
     core::{
@@ -71,8 +71,8 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PongBundle {
         builder.add(PongInputSystem, "pong_input_system", &[]);
         builder.add(MovementSystem, "movement_system", &["pong_input_system"]);
         builder.add(
-            PaddleConstrainSystem,
-            "paddle_constrain_system",
+            BoundConstraintSystem,
+            "bound_constraint_system",
             &["movement_system"],
         );
         builder.add(BounceSystem, "bounce_system", &["movement_system"]);
